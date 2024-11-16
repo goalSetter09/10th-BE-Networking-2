@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import cotato.backend.common.dto.DataResponse;
 import cotato.backend.domains.post.dto.request.SavePostsByExcelRequest;
+import cotato.backend.domains.post.dto.request.SinglePostCreateRequest;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -16,6 +17,13 @@ import lombok.RequiredArgsConstructor;
 public class PostController {
 
 	private final PostService postService;
+
+	@PostMapping("/single")
+	public ResponseEntity<DataResponse<SinglePostCreateResponse>> createSinglePost(
+		@RequestBody SinglePostCreateRequest request) {
+		SinglePostCreateResponse response = postService.createSinglePost(request);
+		return ResponseEntity.ok(DataResponse.from(response));
+	}
 
 	@PostMapping("/excel")
 	public ResponseEntity<DataResponse<Void>> savePostsByExcel(@RequestBody SavePostsByExcelRequest request) {

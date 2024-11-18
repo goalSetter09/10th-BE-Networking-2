@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cotato.backend.common.excel.ExcelUtils;
 import cotato.backend.common.exception.ApiException;
+import cotato.backend.domains.post.dto.SinglePostFindResponse;
 import cotato.backend.domains.post.dto.request.SinglePostCreateRequest;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -59,4 +60,20 @@ public class PostService {
 		Post savedPost = postRepository.save(post);
 		return SinglePostCreateResponse.from(savedPost.getId());
 	}
+
+	@Transactional
+	public SinglePostFindResponse findSinglePostById(Long postId) {
+		Post post = postRepository.findById(postId)
+			.orElseThrow(() -> ApiException.from(POST_NOT_FOUND));
+
+		post.increaseViews();
+
+		return SinglePostFindResponse.from(
+			post.getTitle(),
+			post.getContent(),
+			post.getName(),
+			post.getViews()
+		);
+	}
+
 }

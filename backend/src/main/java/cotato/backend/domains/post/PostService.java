@@ -4,11 +4,14 @@ import static cotato.backend.common.exception.ErrorCode.*;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cotato.backend.common.excel.ExcelUtils;
 import cotato.backend.common.exception.ApiException;
+import cotato.backend.domains.post.dto.PostFindResponse;
+import cotato.backend.domains.post.dto.PostListFindResponse;
 import cotato.backend.domains.post.dto.SinglePostFindResponse;
 import cotato.backend.domains.post.dto.request.SinglePostCreateRequest;
 import lombok.AccessLevel;
@@ -58,7 +61,7 @@ public class PostService {
 			.build();
 
 		Post savedPost = postRepository.save(post);
-		return SinglePostCreateResponse.from(savedPost.getId());
+		return SinglePostCreateResponse.from(post);
 	}
 
 	@Transactional
@@ -76,4 +79,11 @@ public class PostService {
 		);
 	}
 
+	public PostListFindResponse findPostListSortByViews(Pageable pageable) {
+		List<PostFindResponse> postFindResponses = postRepository.findAllByOrderByViewsDesc(pageable)
+			.stream().map(PostFindResponse::from)
+			.toList();
+
+		return PostListFindResponse.from(postFindResponses);
+	}
 }

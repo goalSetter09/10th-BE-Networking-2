@@ -24,7 +24,8 @@ public class Post {
 	@Column(nullable = false)
 	private String title;
 
-	@Column(nullable = false)
+	@Column(nullable = false, length = 500)
+
 	private String content;
 
 	@Column(nullable = false)
@@ -32,5 +33,9 @@ public class Post {
 
 	@Column
 	private Long views;
+
+	public void increaseViews() {
+		this.views++;
+	}
 
 }

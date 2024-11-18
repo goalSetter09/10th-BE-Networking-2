@@ -24,14 +24,6 @@ public class PostController {
 
 	private final PostService postService;
 
-	// 게시글 단일 생성 기능
-	@PostMapping("/single")
-	public ResponseEntity<DataResponse<SinglePostCreateResponse>> createSinglePost(
-		@RequestBody SinglePostCreateRequest request) {
-		SinglePostCreateResponse response = postService.createSinglePost(request);
-		return ResponseEntity.ok(DataResponse.from(response));
-	}
-
 	// 게시글 단일 조회 기능
 	@GetMapping("/{postId}")
 	public ResponseEntity<DataResponse<SinglePostFindResponse>> findSinglePostById(@PathVariable Long postId) {
@@ -39,13 +31,15 @@ public class PostController {
 		return ResponseEntity.ok(DataResponse.from(postService.findSinglePostById(postId)));
 	}
 
-	/*
-	게시글 목록 조회 기능 (조회순, 페이징 포함)
-		- 게시글 목록을 **조회 수(views)** 순으로 정렬하여 조회하는 API를 구현하세요.
-		- `Pageable`을 사용해 페이지네이션을 구현하고, 페이지별로 10개의 게시글을 반환합니다.
-		- 각 게시글의 ID, 제목, 작성자 이름을 포함하여 반환합니다.
-		- 추가 기능: 페이지네이션에 필요한 현재 페이지와 전체 페이지 수도 함께 반환합니다.
-	 */
+	// 게시글 단일 생성 기능
+	@PostMapping("/single")
+	public ResponseEntity<DataResponse<SinglePostCreateResponse>> createSinglePost(
+		@RequestBody SinglePostCreateRequest request) {
+		SinglePostCreateResponse response = postService.createSinglePost(request);
+
+		return ResponseEntity.ok(DataResponse.from(response));
+	}
+
 	@GetMapping()
 	public ResponseEntity<DataResponse<PostListFindResponse>> findPostListSortByViews(
 		@PageableDefault(page = 0, size = 10) Pageable pageable) {

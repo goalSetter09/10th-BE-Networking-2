@@ -1,5 +1,7 @@
 package cotato.backend.domains.post.dto;
 
+import cotato.backend.domains.post.Post;
+
 public record SinglePostFindResponse(
 	String title,
 	String content,
@@ -7,7 +9,12 @@ public record SinglePostFindResponse(
 	Long views
 ) {
 
-	public static SinglePostFindResponse from(String title, String content, String author, Long views) {
-		return new SinglePostFindResponse(title, content, author, views);
+	public static SinglePostFindResponse from(Post post) {
+		return new SinglePostFindResponse(
+			post.getTitle(),
+			post.getContent(),
+			post.getName(),
+			post.getViews()
+		);
 	}
 }

@@ -71,17 +71,13 @@ public class PostService {
 
 		post.increaseViews();
 
-		return SinglePostFindResponse.from(
-			post.getTitle(),
-			post.getContent(),
-			post.getName(),
-			post.getViews()
-		);
+		return SinglePostFindResponse.from(post);
 	}
 
 	public PostListFindResponse findPostListSortByViews(Pageable pageable) {
 		List<PostFindResponse> postFindResponses = postRepository.findAllByOrderByViewsDesc(pageable)
-			.stream().map(PostFindResponse::from)
+			.stream()
+			.map(PostFindResponse::from)
 			.toList();
 
 		return PostListFindResponse.from(postFindResponses);

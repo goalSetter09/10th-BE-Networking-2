@@ -85,9 +85,11 @@ public class PostService {
 
 	@Transactional
 	public void deletePostById(Long postId) {
-		if (!postRepository.existsById(postId)) {
-			throw ApiException.from(POST_NOT_FOUND);
-		}
-		postRepository.deleteById(postId);
+		postRepository.findById(postId).ifPresentOrElse(
+			postRepository::delete,
+			() -> {
+				throw ApiException.from(POST_NOT_FOUND);
+			}
+		);
 	}
 }

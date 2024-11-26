@@ -1,4 +1,4 @@
-package cotato.backend.domains.post.dto;
+package cotato.backend.domains.post.dto.response;
 
 import java.util.List;
 

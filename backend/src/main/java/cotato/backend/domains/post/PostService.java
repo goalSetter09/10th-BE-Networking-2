@@ -10,9 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cotato.backend.common.excel.ExcelUtils;
 import cotato.backend.common.exception.ApiException;
-import cotato.backend.domains.post.dto.PostFindResponse;
-import cotato.backend.domains.post.dto.PostListFindResponse;
-import cotato.backend.domains.post.dto.SinglePostFindResponse;
+import cotato.backend.domains.post.dto.response.PostFindResponse;
+import cotato.backend.domains.post.dto.response.PostListFindResponse;
+import cotato.backend.domains.post.dto.response.SinglePostFindResponse;
 import cotato.backend.domains.post.dto.request.SinglePostCreateRequest;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

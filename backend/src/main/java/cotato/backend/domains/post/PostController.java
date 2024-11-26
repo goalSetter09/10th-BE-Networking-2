@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cotato.backend.common.dto.DataResponse;
-import cotato.backend.domains.post.dto.PostListFindResponse;
-import cotato.backend.domains.post.dto.SinglePostFindResponse;
+import cotato.backend.domains.post.dto.response.PostListFindResponse;
+import cotato.backend.domains.post.dto.response.SinglePostFindResponse;
 import cotato.backend.domains.post.dto.request.SavePostsByExcelRequest;
 import cotato.backend.domains.post.dto.request.SinglePostCreateRequest;
 import io.swagger.v3.oas.annotations.Operation;

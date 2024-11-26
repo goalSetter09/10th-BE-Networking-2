@@ -31,8 +31,8 @@ public class Post {
 	@Column(nullable = false)
 	private String name;
 
-	@Column
-	private Long views;
+	@Column(nullable = false)
+	private Long views = 0L;
 
 	public void increaseViews() {
 		this.views++;

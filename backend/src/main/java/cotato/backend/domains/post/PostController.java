@@ -21,6 +21,7 @@ import cotato.backend.domains.post.dto.response.PostListFindResponse;
 import cotato.backend.domains.post.dto.response.SinglePostResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Tag(name = "게시글 API", description = "게시글 관련 API")
@@ -42,7 +43,7 @@ public class PostController {
 	// 게시글 단일 생성 기능
 	@PostMapping("/single")
 	@Operation(summary = "게시글 단건 생성", description = "SinglePostCreateRequest를 통해 게시글을 하나 생성합니다.")
-	public ResponseEntity<DataResponse<?>> createSinglePost(@RequestBody NewPostRequest request) {
+	public ResponseEntity<DataResponse<?>> createSinglePost(@RequestBody @Valid NewPostRequest request) {
 		postService.createSinglePost(request.content(), request.title(), request.name());
 		return ResponseEntity.ok(DataResponse.ok());
 	}
@@ -57,7 +58,7 @@ public class PostController {
 
 	@PostMapping("/excel")
 	@Operation(summary = "게시글 다중 생성(엑셀)", description = "SavePostsByExcelRequest(엑셀 파일의 경로)를 통해 다중 게시글을 한 번에 생성합니다.")
-	public ResponseEntity<DataResponse<Void>> savePostsByExcel(@RequestBody SavePostsByExcelRequest request) throws
+	public ResponseEntity<DataResponse<Void>> savePostsByExcel(@RequestBody @Valid SavePostsByExcelRequest request) throws
 		Exception {
 		postService.saveEstatesByExcel(request.getPath());
 		return ResponseEntity.ok(DataResponse.ok());

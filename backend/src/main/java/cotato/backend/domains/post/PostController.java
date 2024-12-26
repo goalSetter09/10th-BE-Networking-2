@@ -58,8 +58,7 @@ public class PostController {
 
 	@PostMapping("/excel")
 	@Operation(summary = "게시글 다중 생성(엑셀)", description = "SavePostsByExcelRequest(엑셀 파일의 경로)를 통해 다중 게시글을 한 번에 생성합니다.")
-	public ResponseEntity<DataResponse<Void>> savePostsByExcel(@RequestBody @Valid SavePostsByExcelRequest request) throws
-		Exception {
+	public ResponseEntity<DataResponse<Void>> savePostsByExcel(@RequestBody @Valid SavePostsByExcelRequest request) {
 		postService.saveEstatesByExcel(request.getPath());
 		return ResponseEntity.ok(DataResponse.ok());
 	}

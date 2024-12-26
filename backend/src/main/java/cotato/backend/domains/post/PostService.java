@@ -20,7 +20,7 @@ public class PostService {
 	private final PostProcessor postProcessor;
 	private final PostBatchProcessor postBatchProcessor;
 
-	public void saveEstatesByExcel(String filePath) throws Exception {
+	public void saveEstatesByExcel(String filePath) {
 		postBatchProcessor.savePostsByExcelWithBatch(filePath);
 	}
 

@@ -17,7 +17,7 @@ public class PostReader {
 
 	@Transactional
 	public PostConcept findSinglePost(Long id) {
-		Post post = postRepository.findById(id)
+		Post post = postRepository.findPostByIdWithPessimisticLock(id)
 			.orElseThrow(() -> ApiException.from(ErrorCode.POST_NOT_FOUND));
 		post.increaseViews();
 		return PostConcept.from(post);

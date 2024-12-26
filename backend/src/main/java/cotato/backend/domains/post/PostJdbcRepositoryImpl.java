@@ -5,9 +5,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
@@ -39,7 +39,7 @@ public class PostJdbcRepositoryImpl implements PostJdbcRepository {
 		jdbcTemplate.batchUpdate("INSERT INTO POST (`TITLE`, `CONTENT`, `NAME`, `VIEWS`) VALUES (?, ?, ?, ?)",
 			new BatchPreparedStatementSetter() {
 				@Override
-				public void setValues(PreparedStatement ps, int i) throws SQLException {
+				public void setValues(@NonNull PreparedStatement ps, int i) throws SQLException {
 					ps.setString(1, subPosts.get(i).getName());
 					ps.setString(2, subPosts.get(i).getTitle());
 					ps.setString(3, subPosts.get(i).getContent());

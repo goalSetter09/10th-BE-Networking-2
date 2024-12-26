@@ -17,9 +17,7 @@ import lombok.RequiredArgsConstructor;
 public class PostJdbcRepositoryImpl implements PostJdbcRepository {
 
 	private final JdbcTemplate jdbcTemplate;
-
-	@Value("${batchSize}")
-	private int batchSize;
+	private final int BATCH_SIZE = 1000;
 
 	@Override
 	public void saveAll(List<Post> posts) {
@@ -27,17 +25,17 @@ public class PostJdbcRepositoryImpl implements PostJdbcRepository {
 		List<Post> subItems = new ArrayList<>();
 		for (int i = 0; i < posts.size(); i++) {
 			subItems.add(posts.get(i));
-			if ((i + 1) % batchSize == 0) {
-				batchCount = batchInsert(batchSize, batchCount, subItems);
+			if ((i + 1) % BATCH_SIZE == 0) {
+				batchCount = batchInsert(batchCount, subItems);
 			}
 		}
 		if (!subItems.isEmpty()) {
-			batchCount = batchInsert(batchSize, batchCount, subItems);
+			batchCount = batchInsert(batchCount, subItems);
 		}
 		System.out.println("batchCount: " + batchCount);
 	}
 
-	private int batchInsert(int batchSize, int batchCount, List<Post> subPosts) {
+	private int batchInsert(int batchCount, List<Post> subPosts) {
 		jdbcTemplate.batchUpdate("INSERT INTO POST (`TITLE`, `CONTENT`, `NAME`, `VIEWS`) VALUES (?, ?, ?, ?)",
 			new BatchPreparedStatementSetter() {
 				@Override

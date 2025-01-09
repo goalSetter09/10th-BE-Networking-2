@@ -25,6 +25,10 @@ public class PostService {
 		postBatchProcessor.savePostsByExcelWithBatch(filePath);
 	}
 
+	public void saveEstatesByExcelWithVirtualThread(String filePath) {
+		postBatchProcessor.savePostsByExcelWithVirtualThread(filePath);
+	}
+
 	public void createSinglePost(String content, String title, String name) {
 		postAppender.append(content, title, name);
 	}

@@ -80,6 +80,14 @@ public class PostController {
 		return ResponseEntity.ok(DataResponse.ok());
 	}
 
+	@PostMapping("/excel/virtual-thread")
+	@Operation(summary = "게시글 다중 생성(엑셀), virtual thread 사용", description = "SavePostsByExcelRequest(엑셀 파일의 경로)를 통해 다중 게시글을 한 번에 생성합니다.")
+	public ResponseEntity<DataResponse<Void>> savePostsByExcelWithVirtualThread(
+		@RequestBody @Valid SavePostsByExcelRequest request) {
+		postService.saveEstatesByExcelWithVirtualThread(request.getPath());
+		return ResponseEntity.ok(DataResponse.ok());
+	}
+
 	@DeleteMapping("/{postId}")
 	@Operation(summary = "게시글 단건 삭제", description = "postId를 통해 게시글을 하나 삭제합니다.")
 	public ResponseEntity<DataResponse<Void>> deletePostById(@PathVariable Long postId) {

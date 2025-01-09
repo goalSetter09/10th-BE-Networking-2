@@ -56,6 +56,14 @@ public class PostController {
 		return ResponseEntity.ok(DataResponse.from(PostListFindResponse.from(posts)));
 	}
 
+	@GetMapping("/redis")
+	@Operation(summary = "게시글 리스트 조회(페이징, 조회수 순 정렬), redis cache 적용", description = "전체 게시글을 조회수 순으로 정렬한 후 페이징하여 조회합니다.(기본 페이지: 0, 페이지 별 기본 게시글 수: 10)")
+	public ResponseEntity<DataResponse<PostListFindResponse>> findHotPostsRedis(
+		@PageableDefault(page = 0, size = 10) Pageable pageable) {
+		List<PostConcept> posts = postService.findHotPostListRedis(pageable);
+		return ResponseEntity.ok(DataResponse.from(PostListFindResponse.from(posts)));
+	}
+
 	@PostMapping("/excel")
 	@Operation(summary = "게시글 다중 생성(엑셀)", description = "SavePostsByExcelRequest(엑셀 파일의 경로)를 통해 다중 게시글을 한 번에 생성합니다.")
 	public ResponseEntity<DataResponse<Void>> savePostsByExcel(@RequestBody @Valid SavePostsByExcelRequest request) {

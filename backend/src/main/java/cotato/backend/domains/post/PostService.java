@@ -36,6 +36,10 @@ public class PostService {
 		return postProcessor.findPostListSortByViews(pageable);
 	}
 
+	public List<PostConcept> findHotPostListRedis(Pageable pageable) {
+		return postProcessor.findHotPostsRedisCache(pageable);
+	}
+
 	public void deletePostById(Long postId) {
 		postProcessor.removePost(postId);
 	}

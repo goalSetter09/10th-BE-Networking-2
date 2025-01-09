@@ -4,6 +4,8 @@ import static cotato.backend.common.exception.ErrorCode.*;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,7 @@ public class PostProcessor {
 	private final PostRepository postRepository;
 
 	@Transactional
+	@CacheEvict(value = "postList", allEntries = true)
 	public void removePost(Long postId) {
 		postRepository.findById(postId).ifPresentOrElse(
 			postRepository::delete,
@@ -30,6 +33,14 @@ public class PostProcessor {
 	}
 
 	public List<PostConcept> findPostListSortByViews(Pageable pageable) {
+		return postRepository.findAllByOrderByViewsDesc(pageable)
+			.stream()
+			.map(PostConcept::from)
+			.toList();
+	}
+
+	@Cacheable(value = "postList", key = "#pageable.pageNumber")
+	public List<PostConcept> findHotPostsRedisCache(Pageable pageable) {
 		return postRepository.findAllByOrderByViewsDesc(pageable)
 			.stream()
 			.map(PostConcept::from)

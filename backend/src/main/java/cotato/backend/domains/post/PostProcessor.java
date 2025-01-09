@@ -3,6 +3,7 @@ package cotato.backend.domains.post;
 import static cotato.backend.common.exception.ErrorCode.*;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -20,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class PostProcessor {
 
 	private final PostRepository postRepository;
+	private final ExecutorService virtualThreadExecutor;
 
 	@Transactional
 	@CacheEvict(value = "postList", allEntries = true)
@@ -41,6 +43,14 @@ public class PostProcessor {
 
 	@Cacheable(value = "postList", key = "#pageable.pageNumber")
 	public List<PostConcept> findHotPostsRedisCache(Pageable pageable) {
+		return postRepository.findAllByOrderByViewsDesc(pageable)
+			.stream()
+			.map(PostConcept::from)
+			.toList();
+	}
+
+	@Cacheable(value = "postList", key = "#pageable.pageNumber")
+	public List<PostConcept> findHotPostsVirtualThread(Pageable pageable) {
 		return postRepository.findAllByOrderByViewsDesc(pageable)
 			.stream()
 			.map(PostConcept::from)

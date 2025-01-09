@@ -1,6 +1,7 @@
 package cotato.backend.domains.post;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -62,6 +63,14 @@ public class PostController {
 		@PageableDefault(page = 0, size = 10) Pageable pageable) {
 		List<PostConcept> posts = postService.findHotPostListRedis(pageable);
 		return ResponseEntity.ok(DataResponse.from(PostListFindResponse.from(posts)));
+	}
+
+	@GetMapping("/virtual-thread")
+	@Operation(summary = "게시글 리스트 조회(페이징, 조회수 순 정렬), virtual thread 적용", description = "전체 게시글을 조회수 순으로 정렬한 후 페이징하여 조회합니다.(기본 페이지: 0, 페이지 별 기본 게시글 수: 10)")
+	public CompletableFuture<ResponseEntity<DataResponse<PostListFindResponse>>> getHotPosts(
+		@PageableDefault(page = 0, size = 10) Pageable pageable) {
+		return postService.findHotPostListVirtualThread(pageable)
+			.thenApply(posts -> ResponseEntity.ok(DataResponse.from(PostListFindResponse.from(posts))));
 	}
 
 	@PostMapping("/excel")

@@ -1,6 +1,7 @@
 package cotato.backend.domains.post;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,10 @@ public class PostService {
 
 	public List<PostConcept> findHotPostListRedis(Pageable pageable) {
 		return postProcessor.findHotPostsRedisCache(pageable);
+	}
+
+	public CompletableFuture<List<PostConcept>> findHotPostListVirtualThread(Pageable pageable) {
+		return CompletableFuture.supplyAsync(() -> postProcessor.findHotPostsVirtualThread(pageable));
 	}
 
 	public void deletePostById(Long postId) {
